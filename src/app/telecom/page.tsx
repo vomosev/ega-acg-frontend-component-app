@@ -10,11 +10,11 @@ export default function TelecomPage() {
       <div className="max-w-7xl mx-auto space-y-6">
 
         <div>
-          <h1 className="text-4xl font-semibold text-clgeodrops">
+          <h1 className="text-4xl font-semibold heading-clgeodrops">
             Autonomous AI Edge Platform
           </h1>
 
-          <p className="text-gray-500 mt-2">
+          <p className="text-clgeodrops mt-2">
             CAMARA QoD + Open Gateway + AI Edge Orchestration
           </p>
         </div>

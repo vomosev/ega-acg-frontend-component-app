@@ -213,7 +213,7 @@ export default function TelecomMobileMockup() {
                     geo-claim-button
                     rounded-full
                     w-full
-                    bg-clgeodrops
+                    button-clgeodrops
                     hover:opacity-60
                     duration-200
                     ease-in-out

@@ -11,11 +11,19 @@ body {
 }
 
 .bg-clgeodrops {
-  background-color: #ffd500;
+  background-color: #b5b4b0;
 }
 
 .text-clgeodrops {
   color:  #ffd500;
+}
+
+.button-clgeodrops {
+  background-color: #ffd500;
+}
+
+.heading-clgeodrops {
+  color:  #000000;
 }
 
 .geo-card {
