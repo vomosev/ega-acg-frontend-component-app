@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Smartphone,
@@ -19,6 +19,43 @@ export default function TelecomMobileMockup() {
 
   const [deployment, setDeployment] =
     useState<any>(null);
+
+  const [analytics, setAnalytics] = useState({
+    cellCongestion: 0,
+    rfQuality: 0,
+    gpuUtilisation: 0,
+    });
+
+  const loadAnalytics = async () => {
+
+    try {
+
+        const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/analytics/live-ran`
+        );
+
+        const data = await res.json();
+
+        setAnalytics({
+
+        cellCongestion:
+            data.cellCongestion ?? 0,
+
+        rfQuality:
+            data.rfQuality ?? 0,
+
+        gpuUtilisation:
+            data.gpuUtilisation ?? 0,
+        });
+
+    } catch (err) {
+
+        console.error(
+        "[Analytics Error]",
+        err
+        );
+    }
+    };
 
   const launchInference = async () => {
 
@@ -65,6 +102,20 @@ export default function TelecomMobileMockup() {
       setDeploying(false);
     }
   };
+
+  useEffect(() => {
+
+    loadAnalytics();
+
+    const interval = setInterval(
+        loadAnalytics,
+        5000
+    );
+
+    return () =>
+        clearInterval(interval);
+
+    }, []);
 
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
@@ -308,22 +359,23 @@ export default function TelecomMobileMockup() {
 
                 <div className="space-y-4 text-clgeodrops text-sm">
 
-                  <AnalyticsBar
+                <AnalyticsBar
                     label="Cell Congestion"
-                    value={42}
-                  />
+                    value={analytics.cellCongestion}
+                />
 
-                  <AnalyticsBar
+                <AnalyticsBar
                     label="RF Quality"
-                    value={91}
-                  />
+                    value={analytics.rfQuality}
+                />
 
-                  <AnalyticsBar
+                <AnalyticsBar
                     label="GPU Utilisation"
-                    value={76}
-                  />
+                    value={analytics.gpuUtilisation}
+                />
 
                 </div>
+
               </div>
 
             </div>
