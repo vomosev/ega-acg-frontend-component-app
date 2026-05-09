@@ -416,8 +416,8 @@ export default function TelecomMobileMockup() {
                   icon={<Gauge size={18} />}
                   label="Latency"
                   value={
-                    deployment?.assignedCluster?.latencyMs
-                      ? `${deployment.assignedCluster.latencyMs}ms`
+                    deployment?.qosSession?.latencyMs
+                      ? `${deployment.qosSession.latencyMs}ms`
                       : "TBC"
                   }
                 />
