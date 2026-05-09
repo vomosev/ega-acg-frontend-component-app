@@ -256,7 +256,7 @@ export default function TelecomMobileMockup() {
                   />
 
                   <h3 className="font-bold text-lg">
-                    AI Edge Inference
+                    AI Edge Inference (only enabled for admins)
                   </h3>
                 </div>
 
