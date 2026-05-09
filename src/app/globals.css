@@ -9,3 +9,30 @@ body {
   font-family: Arial, sans-serif;
   background: #F4F7FB;
 }
+
+.bg-clgeodrops {
+  background-color: #5871A7;
+}
+
+.text-clgeodrops {
+  color: #5871A7;
+}
+
+.geo-card {
+  background: white;
+  border: 1px solid #D4D8EA;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+}
+
+.dark .geo-card {
+  background: #111827;
+  border-color: #2E4066;
+}
+
+.geo-claim-button {
+  transition: all 0.2s ease-in-out;
+}
+
+.geo-claim-button:hover {
+  opacity: 0.6;
+}

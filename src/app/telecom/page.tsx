@@ -5,12 +5,12 @@ import TelecomMobileMockup from "@/components/TelecomMobileMockup";
 export default function TelecomPage() {
 
   return (
-    <div className="min-h-screen bg-[#F4F7FB] dark:bg-[#0B1120] p-6">
+    <div className="registration-page-template1 min-h-screen p-6">
 
       <div className="max-w-7xl mx-auto space-y-6">
 
         <div>
-          <h1 className="text-4xl font-bold text-[#5871A7]">
+          <h1 className="text-4xl font-semibold text-clgeodrops">
             Autonomous AI Edge Platform
           </h1>
 

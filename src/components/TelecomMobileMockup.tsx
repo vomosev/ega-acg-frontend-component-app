@@ -72,17 +72,17 @@ export default function TelecomMobileMockup() {
       {/* PHONE MOCKUP */}
       <div className="flex justify-center">
 
-        <div className="
-          relative
-          w-[390px]
-          h-[820px]
-          rounded-[55px]
-          border-[12px]
-          border-black
-          bg-black
-          overflow-hidden
-          shadow-2xl
-        ">
+    <div className="
+    geo-card
+    relative
+    w-[390px]
+    h-[820px]
+    rounded-[55px]
+    overflow-hidden
+    shadow-2xl
+    border border-[#D4D8EA]
+    dark:border-[#2E4066]
+    ">
 
           {/* Dynamic island */}
           <div className="
@@ -106,13 +106,12 @@ export default function TelecomMobileMockup() {
 
             {/* Header */}
             <div className="
-              bg-[#5871A7]
-              text-white
-              px-5
-              pt-14
-              pb-6
+            bg-clgeodrops
+            text-white
+            px-5
+            pt-14
+            pb-6
             ">
-
               <div className="
                 flex
                 items-center
@@ -208,16 +207,18 @@ export default function TelecomMobileMockup() {
                   type="button"
                   disabled={deploying}
                   onClick={launchInference}
-                  className="
+                    className="
+                    geo-claim-button
+                    rounded-full
                     w-full
-                    py-4
-                    rounded-2xl
-                    bg-[#5871A7]
-                    hover:bg-[#4560A0]
+                    bg-clgeodrops
+                    hover:opacity-60
+                    duration-200
+                    ease-in-out
                     text-white
+                    py-4
                     font-semibold
-                    transition-all
-                  "
+                    "
                 >
                   {deploying
                     ? "Deploying AI..."
@@ -229,15 +230,7 @@ export default function TelecomMobileMockup() {
               {/* Deployment result */}
               {deployment && (
 
-                <div className="
-                  bg-white
-                  rounded-3xl
-                  p-5
-                  border
-                  border-[#E2E8F0]
-                  shadow-sm
-                  space-y-4
-                ">
+                <div className="geo-card rounded-3xl p-5 space-y-4">
 
                   <div className="
                     flex
@@ -253,8 +246,7 @@ export default function TelecomMobileMockup() {
                       px-3
                       py-1
                       rounded-full
-                      bg-green-100
-                      text-green-700
+                      bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400
                       text-xs
                       font-bold
                     ">
@@ -296,14 +288,7 @@ export default function TelecomMobileMockup() {
               )}
 
               {/* AI Analytics */}
-              <div className="
-                bg-gradient-to-br
-                from-[#5871A7]
-                to-[#394F84]
-                rounded-3xl
-                p-5
-                text-white
-              ">
+              <div className="bg-clgeodrops rounded-3xl p-5 text-white">
 
                 <div className="
                   flex
@@ -347,13 +332,7 @@ export default function TelecomMobileMockup() {
       {/* RIGHT PANEL */}
       <div className="space-y-5">
 
-        <div className="
-          bg-white
-          rounded-3xl
-          p-8
-          shadow-sm
-          border
-        ">
+        <div className="geo-card rounded-3xl p-8">
 
           <h2 className="
             text-2xl
@@ -408,14 +387,7 @@ function Widget({
 }: any) {
 
   return (
-    <div className="
-      bg-white
-      rounded-2xl
-      border
-      border-[#E2E8F0]
-      p-4
-      shadow-sm
-    ">
+    <div className="geo-card p-4 rounded-2xl">
 
       <div className="
         flex

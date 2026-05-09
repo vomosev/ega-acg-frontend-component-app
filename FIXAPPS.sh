@@ -248,7 +248,7 @@ export default function TelecomPage() {
   return (
     <div className="min-h-screen bg-[#F4F7FB] p-10">
 
-      <h1 className="text-4xl font-bold text-[#5871A7]">
+      <h1 className="text-4xl font-semibold text-clgeodrops">
         Telecom AI Edge Dashboard
       </h1>
 
