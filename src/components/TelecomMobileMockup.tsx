@@ -214,7 +214,7 @@ export default function TelecomMobileMockup() {
                 <Widget
                   icon={<Radio size={18} />}
                   label="Slice"
-                  value="LOW_LATENCY"
+                  value="LATENCY"
                 />
 
                 <Widget
@@ -360,19 +360,16 @@ export default function TelecomMobileMockup() {
                 <div className="space-y-4 text-clgeodrops text-sm">
 
                 <AnalyticsBar
-                    className="geo-card p-3 rounded-2xl"
                     label="Cell Congestion"
                     value={analytics.cellCongestion}
                 />
 
                 <AnalyticsBar
-                    className="geo-card p-3 rounded-2xl"
                     label="RF Quality"
                     value={analytics.rfQuality}
                 />
 
                 <AnalyticsBar
-                    className="geo-card p-3 rounded-2xl"
                     label="GPU Utilisation"
                     value={analytics.gpuUtilisation}
                 />
@@ -512,12 +509,11 @@ function InfoRow({
 
 function AnalyticsBar({
   label,
-  value,
-  className = ""
+  value
 }: any) {
 
   return (
-    <div className={className}>
+    <div>
 
       <div className="
         flex
