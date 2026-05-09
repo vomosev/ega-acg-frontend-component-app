@@ -11,11 +11,11 @@ body {
 }
 
 .bg-clgeodrops {
-  background-color: #5871A7;
+  background-color: #ffd500;
 }
 
 .text-clgeodrops {
-  color: #5871A7;
+  color:  #ffd500;
 }
 
 .geo-card {
@@ -26,7 +26,7 @@ body {
 
 .dark .geo-card {
   background: #111827;
-  border-color: #2E4066;
+  border-color: #ffd500;
 }
 
 .geo-claim-button {
