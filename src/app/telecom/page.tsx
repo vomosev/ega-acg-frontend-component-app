@@ -1,25 +1,21 @@
-"use client";
-
-import TelecomMobileMockup from "@/components/TelecomMobileMockup";
-
-export default function TelecomDashboardPage() {
+export default function TelecomPage() {
 
   return (
-    <div className="min-h-screen bg-[#F4F7FB] dark:bg-[#0B1120] p-6">
+    <div className="min-h-screen bg-[#F4F7FB] p-10">
 
-      <div className="max-w-7xl mx-auto space-y-6">
+      <h1 className="text-4xl font-bold text-[#5871A7]">
+        Telecom AI Edge Dashboard
+      </h1>
 
-        <div>
-          <h1 className="text-4xl font-bold text-[#5871A7]">
-            Autonomous AI Edge Platform
-          </h1>
+      <div className="mt-8 bg-white rounded-3xl p-8 shadow-sm border">
 
-          <p className="text-gray-500 mt-2">
-            CAMARA QoD + Open Gateway + AI Edge Orchestration
-          </p>
-        </div>
+        <h2 className="text-2xl font-semibold">
+          Platform Online
+        </h2>
 
-        <TelecomMobileMockup />
+        <p className="mt-4 text-gray-500">
+          Frontend successfully deployed.
+        </p>
 
       </div>
     </div>
