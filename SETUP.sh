@@ -215,7 +215,7 @@ export default function TelecomMobileMockup() {
 
           <div className="absolute top-3 left-1/2 -translate-x-1/2 w-[140px] h-[32px] bg-black rounded-full z-50 border border-gray-800" />
 
-          <div className="h-full bg-[#F4F7FB] overflow-y-auto">
+          <divclassName="h-fulloverflow-y-autoregistration-page-template1bg-[#F4F7FB]dark:bg-[#0B1120]">
 
             <div className="bg-[#5871A7] px-5 pt-14 pb-5 text-white">
 

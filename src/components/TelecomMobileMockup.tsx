@@ -72,17 +72,19 @@ export default function TelecomMobileMockup() {
       {/* PHONE MOCKUP */}
       <div className="flex justify-center">
 
-    <div className="
-    geo-card
-    relative
-    w-[390px]
-    h-[820px]
-    rounded-[55px]
-    overflow-hidden
-    shadow-2xl
-    border border-[#D4D8EA]
-    dark:border-[#2E4066]
-    ">
+        <div
+        className="
+            relative
+            w-[390px]
+            h-[820px]
+            rounded-[55px]
+            border-[12px]
+            border-black
+            bg-black
+            overflow-hidden
+            shadow-2xl
+        "
+        >
 
           {/* Dynamic island */}
           <div className="
