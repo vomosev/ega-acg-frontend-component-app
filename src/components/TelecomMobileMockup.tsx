@@ -262,7 +262,8 @@ export default function TelecomMobileMockup() {
 
                 <button
                   type="button"
-                  disabled={deploying}
+                  // disabled={deploying}
+                  disabled
                   onClick={launchInference}
                     className="
                     geo-claim-button
