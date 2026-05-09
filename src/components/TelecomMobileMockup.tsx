@@ -360,16 +360,19 @@ export default function TelecomMobileMockup() {
                 <div className="space-y-4 text-clgeodrops text-sm">
 
                 <AnalyticsBar
+                    className="geo-card p-3 rounded-2xl"
                     label="Cell Congestion"
                     value={analytics.cellCongestion}
                 />
 
                 <AnalyticsBar
+                    className="geo-card p-3 rounded-2xl"
                     label="RF Quality"
                     value={analytics.rfQuality}
                 />
 
                 <AnalyticsBar
+                    className="geo-card p-3 rounded-2xl"
                     label="GPU Utilisation"
                     value={analytics.gpuUtilisation}
                 />
@@ -509,11 +512,12 @@ function InfoRow({
 
 function AnalyticsBar({
   label,
-  value
+  value,
+  className = ""
 }: any) {
 
   return (
-    <div>
+    <div className={className}>
 
       <div className="
         flex
