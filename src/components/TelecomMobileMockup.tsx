@@ -121,11 +121,11 @@ export default function TelecomMobileMockup() {
               ">
 
                 <div>
-                  <h2 className="text-2xl font-bold">
+                  <h2 className="text-2xl text-clgeodrops font-bold">
                     Edge AI Device
                   </h2>
 
-                  <p className="text-sm mt-1">
+                  <p className="text-sm text-clgeodrops mt-1">
                     CAMARA QoD Active
                   </p>
                 </div>
@@ -301,12 +301,12 @@ export default function TelecomMobileMockup() {
 
                   <Zap size={20} />
 
-                  <h3 className="font-bold text-lg">
+                  <h3 className="font-bold text-clgeodrops text-lg">
                     Live AI Analytics
                   </h3>
                 </div>
 
-                <div className="space-y-4 text-sm">
+                <div className="space-y-4 text-clgeodrops text-sm">
 
                   <AnalyticsBar
                     label="Cell Congestion"
