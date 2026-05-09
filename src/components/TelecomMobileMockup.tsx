@@ -20,42 +20,86 @@ export default function TelecomMobileMockup() {
   const [deployment, setDeployment] =
     useState<any>(null);
 
+  const [deploymentStatus, setDeploymentStatus] =
+    useState<any>(null);
+
+  const [deploymentLoading, setDeploymentLoading] =
+    useState(false);
+
   const [analytics, setAnalytics] = useState({
+
     cellCongestion: 0,
+
     rfQuality: 0,
+
     gpuUtilisation: 0,
-    });
+  });
+
+  // =====================================================
+  // LOAD LIVE RAN ANALYTICS
+  // =====================================================
 
   const loadAnalytics = async () => {
 
     try {
 
-        const res = await fetch(
+      const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/analytics/live-ran`
-        );
+      );
 
-        const data = await res.json();
+      const data = await res.json();
 
-        setAnalytics({
+      setAnalytics({
 
         cellCongestion:
-            data.cellCongestion ?? 0,
+          data.cellCongestion ?? 0,
 
         rfQuality:
-            data.rfQuality ?? 0,
+          data.rfQuality ?? 0,
 
         gpuUtilisation:
-            data.gpuUtilisation ?? 0,
-        });
+          data.gpuUtilisation ?? 0,
+      });
 
     } catch (err) {
 
-        console.error(
+      console.error(
         "[Analytics Error]",
         err
-        );
+      );
     }
-    };
+  };
+
+  // =====================================================
+  // LOAD DEPLOYMENT STATUS
+  // =====================================================
+
+  const loadDeploymentStatus = async (
+    workloadId: number
+  ) => {
+
+    try {
+
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/edge/inference-request/${workloadId}`
+      );
+
+      const data = await res.json();
+
+      setDeploymentStatus(data);
+
+    } catch (err) {
+
+      console.error(
+        "[Deployment Status Error]",
+        err
+      );
+    }
+  };
+
+  // =====================================================
+  // CREATE AI INFERENCE REQUEST
+  // =====================================================
 
   const launchInference = async () => {
 
@@ -66,6 +110,7 @@ export default function TelecomMobileMockup() {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/edge/inference-request`,
         {
+
           method: "POST",
 
           headers: {
@@ -74,17 +119,23 @@ export default function TelecomMobileMockup() {
 
           body: JSON.stringify({
 
-            workloadType: "radiology-ai",
+            workloadType:
+              "radiology-ai",
 
-            verticalType: "healthcare",
+            verticalType:
+              "healthcare",
 
-            modelName: "radiology-model",
+            modelName:
+              "radiology-model",
 
-            requiredLatencyMs: 10,
+            requiredLatencyMs:
+              10,
 
-            requiredBandwidthMbps: 500,
+            requiredBandwidthMbps:
+              500,
 
-            priorityLevel: 10
+            priorityLevel:
+              10
           })
         }
       );
@@ -92,6 +143,15 @@ export default function TelecomMobileMockup() {
       const data = await res.json();
 
       setDeployment(data);
+
+      setDeploymentStatus({
+
+        inferenceStatus:
+          "allocating",
+
+        deployment:
+          data.deployment
+      });
 
     } catch (err) {
 
@@ -103,28 +163,70 @@ export default function TelecomMobileMockup() {
     }
   };
 
+  // =====================================================
+  // ANALYTICS POLLING
+  // =====================================================
+
   useEffect(() => {
 
     loadAnalytics();
 
     const interval = setInterval(
-        loadAnalytics,
-        5000
+      loadAnalytics,
+      5000
     );
 
     return () =>
-        clearInterval(interval);
+      clearInterval(interval);
 
-    }, []);
+  }, []);
+
+  // =====================================================
+  // DEPLOYMENT STATUS POLLING
+  // =====================================================
+
+  useEffect(() => {
+
+    if (!deployment?.workloadId) {
+      return;
+    }
+
+    setDeploymentLoading(true);
+
+    loadDeploymentStatus(
+      deployment.workloadId
+    );
+
+    const interval = setInterval(() => {
+
+      loadDeploymentStatus(
+        deployment.workloadId
+      );
+
+    }, 3000);
+
+    return () =>
+      clearInterval(interval);
+
+  }, [deployment?.workloadId]);
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
 
+    <div className="
+      grid
+      grid-cols-1
+      lg:grid-cols-2
+      gap-10
+    ">
+
+      {/* ================================================= */}
       {/* PHONE MOCKUP */}
+      {/* ================================================= */}
+
       <div className="flex justify-center">
 
         <div
-        className="
+          className="
             relative
             w-[390px]
             h-[820px]
@@ -134,10 +236,11 @@ export default function TelecomMobileMockup() {
             bg-black
             overflow-hidden
             shadow-2xl
-        "
+          "
         >
 
           {/* Dynamic island */}
+
           <div className="
             absolute
             top-3
@@ -151,6 +254,7 @@ export default function TelecomMobileMockup() {
           " />
 
           {/* Phone screen */}
+
           <div className="
             h-full
             overflow-y-auto
@@ -158,13 +262,15 @@ export default function TelecomMobileMockup() {
           ">
 
             {/* Header */}
+
             <div className="
-            bg-clgeodrops
-            text-white
-            px-5
-            pt-14
-            pb-6
+              bg-clgeodrops
+              text-white
+              px-5
+              pt-14
+              pb-6
             ">
+
               <div className="
                 flex
                 items-center
@@ -172,23 +278,41 @@ export default function TelecomMobileMockup() {
               ">
 
                 <div>
-                  <h2 className="text-2xl text-clgeodrops font-bold">
+
+                  <h2 className="
+                    text-2xl
+                    text-clgeodrops
+                    font-bold
+                  ">
                     Edge AI Device
                   </h2>
 
-                  <p className="text-sm text-clgeodrops mt-1">
+                  <p className="
+                    text-sm
+                    text-clgeodrops
+                    mt-1
+                  ">
                     CAMARA QoD Active
                   </p>
+
                 </div>
 
                 <Smartphone size={36} />
+
               </div>
             </div>
 
-            {/* Main content */}
-            <div className="p-5 space-y-5">
+            {/* ================================================= */}
+            {/* CONTENT */}
+            {/* ================================================= */}
 
-              {/* Status widgets */}
+            <div className="
+              p-5
+              space-y-5
+            ">
+
+              {/* Status Widgets */}
+
               <div className="
                 grid
                 grid-cols-2
@@ -216,7 +340,7 @@ export default function TelecomMobileMockup() {
                   label="Slice"
                   value={
                     deployment?.qosSession?.qosProfile
-                      ? `${deployment.qosSession.qosProfile}`
+                      ? deployment.qosSession.qosProfile
                       : "TBC"
                   }
                 />
@@ -233,7 +357,10 @@ export default function TelecomMobileMockup() {
 
               </div>
 
-              {/* AI Action */}
+              {/* ================================================= */}
+              {/* AI ACTION */}
+              {/* ================================================= */}
+
               <div className="
                 bg-white
                 rounded-3xl
@@ -255,20 +382,20 @@ export default function TelecomMobileMockup() {
                     size={20}
                   />
 
-                  <h3 className="font-bold text-lg">
-                    AI Edge Inference
+                  <h3 className="
+                    font-bold
+                    text-lg
+                  ">
+                    AI Edge Inference (admin only)
                   </h3>
-                  <h3 className="font-bold text-lg">
-                    (only enabled for admins)
-                  </h3>
+
                 </div>
 
                 <button
                   type="button"
                   disabled={deploying}
-                  // disabled
                   onClick={launchInference}
-                    className="
+                  className="
                     geo-claim-button
                     rounded-full
                     w-full
@@ -279,19 +406,31 @@ export default function TelecomMobileMockup() {
                     text-white
                     py-4
                     font-semibold
-                    "
+                  "
                 >
-                  {deploying
-                    ? "Deploying AI..."
-                    : "Launch AI Workload"}
+
+                  {
+                    deploying
+                      ? "Deploying AI..."
+                      : "Launch AI Workload"
+                  }
+
                 </button>
 
               </div>
 
-              {/* Deployment result */}
+              {/* ================================================= */}
+              {/* DEPLOYMENT STATUS */}
+              {/* ================================================= */}
+
               {deployment && (
 
-                <div className="geo-card rounded-3xl p-5 space-y-4">
+                <div className="
+                  geo-card
+                  rounded-3xl
+                  p-5
+                  space-y-4
+                ">
 
                   <div className="
                     flex
@@ -299,25 +438,60 @@ export default function TelecomMobileMockup() {
                     justify-between
                   ">
 
-                    <h3 className="font-bold text-lg">
+                    <h3 className="
+                      font-bold
+                      text-lg
+                    ">
                       Deployment Status
                     </h3>
 
-                    <span className="
-                      px-3
-                      py-1
-                      rounded-full
-                      bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400
-                      text-xs
-                      font-bold
-                    ">
-                      RUNNING
+                    <span
+                      className={`
+                        px-3
+                        py-1
+                        rounded-full
+                        text-xs
+                        font-bold
+
+                        ${
+                          deploymentStatus?.inferenceStatus === "running"
+                            ? "bg-green-100 text-green-700"
+
+                            : deploymentStatus?.inferenceStatus === "allocating"
+                            ? "bg-yellow-100 text-yellow-700"
+
+                            : deploymentStatus?.inferenceStatus === "terminated"
+                            ? "bg-red-100 text-red-700"
+
+                            : "bg-gray-100 text-gray-700"
+                        }
+                      `}
+                    >
+
+                      {
+                        deploymentStatus?.inferenceStatus
+                          ?.toUpperCase()
+
+                          ||
+
+                        "ALLOCATING"
+                      }
+
                     </span>
+
                   </div>
 
                   <InfoRow
                     label="Workload"
-                    value={`#${deployment.workloadId}`}
+                    value={`#${deploymentStatus?.id || deployment.workloadId}`}
+                  />
+
+                  <InfoRow
+                    label="Deployment"
+                    value={
+                      deploymentStatus?.deploymentName
+                        || "Pending"
+                    }
                   />
 
                   <InfoRow
@@ -348,8 +522,16 @@ export default function TelecomMobileMockup() {
                 </div>
               )}
 
-              {/* AI Analytics */}
-              <div className="bg-clgeodrops rounded-3xl p-5 text-white">
+              {/* ================================================= */}
+              {/* LIVE AI ANALYTICS */}
+              {/* ================================================= */}
+
+              <div className="
+                bg-clgeodrops
+                rounded-3xl
+                p-5
+                text-white
+              ">
 
                 <div className="
                   flex
@@ -360,27 +542,36 @@ export default function TelecomMobileMockup() {
 
                   <Zap size={20} />
 
-                  <h3 className="font-bold text-clgeodrops text-lg">
+                  <h3 className="
+                    font-bold
+                    text-clgeodrops
+                    text-lg
+                  ">
                     Live AI Analytics
                   </h3>
+
                 </div>
 
-                <div className="space-y-4 text-clgeodrops text-sm">
+                <div className="
+                  space-y-4
+                  text-clgeodrops
+                  text-sm
+                ">
 
-                <AnalyticsBar
+                  <AnalyticsBar
                     label="Cell Congestion"
                     value={analytics.cellCongestion}
-                />
+                  />
 
-                <AnalyticsBar
+                  <AnalyticsBar
                     label="RF Quality"
                     value={analytics.rfQuality}
-                />
+                  />
 
-                <AnalyticsBar
+                  <AnalyticsBar
                     label="GPU Utilisation"
                     value={analytics.gpuUtilisation}
-                />
+                  />
 
                 </div>
 
@@ -391,10 +582,17 @@ export default function TelecomMobileMockup() {
         </div>
       </div>
 
+      {/* ================================================= */}
       {/* RIGHT PANEL */}
+      {/* ================================================= */}
+
       <div className="space-y-5">
 
-        <div className="geo-card rounded-3xl p-8">
+        <div className="
+          geo-card
+          rounded-3xl
+          p-8
+        ">
 
           <h2 className="
             text-2xl
@@ -419,7 +617,7 @@ export default function TelecomMobileMockup() {
 
             <p>
               AI workloads are dynamically deployed
-              to GPU-enabled edge clusters using:
+              to edge clusters using:
             </p>
 
             <ul className="
@@ -427,12 +625,19 @@ export default function TelecomMobileMockup() {
               pl-6
               space-y-2
             ">
+
               <li>CAMARA QoD APIs</li>
+
               <li>5G Network Slicing</li>
+
               <li>Open Gateway APIs</li>
+
               <li>QUBO Optimisation</li>
+
               <li>Kubernetes Edge AI</li>
+
               <li>GPU Orchestration</li>
+
             </ul>
 
           </div>
@@ -442,6 +647,10 @@ export default function TelecomMobileMockup() {
   );
 }
 
+// =====================================================
+// WIDGET
+// =====================================================
+
 function Widget({
   icon,
   label,
@@ -449,7 +658,12 @@ function Widget({
 }: any) {
 
   return (
-    <div className="geo-card p-4 rounded-2xl">
+
+    <div className="
+      geo-card
+      p-4
+      rounded-2xl
+    ">
 
       <div className="
         flex
@@ -469,6 +683,7 @@ function Widget({
         ">
           LIVE
         </span>
+
       </div>
 
       <div className="
@@ -485,9 +700,14 @@ function Widget({
       ">
         {label}
       </div>
+
     </div>
   );
 }
+
+// =====================================================
+// INFO ROW
+// =====================================================
 
 function InfoRow({
   label,
@@ -495,6 +715,7 @@ function InfoRow({
 }: any) {
 
   return (
+
     <div className="
       flex
       items-center
@@ -511,9 +732,14 @@ function InfoRow({
       <span className="font-semibold">
         {value}
       </span>
+
     </div>
   );
 }
+
+// =====================================================
+// ANALYTICS BAR
+// =====================================================
 
 function AnalyticsBar({
   label,
@@ -521,6 +747,7 @@ function AnalyticsBar({
 }: any) {
 
   return (
+
     <div>
 
       <div className="
@@ -532,6 +759,7 @@ function AnalyticsBar({
         <span>{label}</span>
 
         <span>{value}%</span>
+
       </div>
 
       <div className="
