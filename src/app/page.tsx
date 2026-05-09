@@ -1,26 +1,25 @@
-import Link from "next/link";
+"use client";
 
-export default function HomePage() {
+import TelecomMobileMockup from "@/components/TelecomMobileMockup";
+
+export default function TelecomPage() {
 
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen bg-[#F4F7FB] dark:bg-[#0B1120] p-6">
 
-      <div className="text-center">
+      <div className="max-w-7xl mx-auto space-y-6">
 
-        <h1 className="text-5xl font-bold text-[#5871A7]">
-          EGA Autonomous AI Edge
-        </h1>
+        <div>
+          <h1 className="text-4xl font-bold text-[#5871A7]">
+            Autonomous AI Edge Platform
+          </h1>
 
-        <p className="mt-4 text-gray-500">
-          CAMARA QoD + Edge AI + Telecom Analytics
-        </p>
+          <p className="text-gray-500 mt-2">
+            CAMARA QoD + Open Gateway + AI Edge Orchestration
+          </p>
+        </div>
 
-        <Link
-          href="/telecom"
-          className="inline-block mt-8 px-6 py-4 bg-[#5871A7] text-white rounded-2xl"
-        >
-          Open Dashboard
-        </Link>
+        <TelecomMobileMockup />
 
       </div>
     </div>
