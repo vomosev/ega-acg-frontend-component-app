@@ -10,11 +10,15 @@ import {
   Gauge,
   Zap,
   Activity,
+  Trash2
 } from "lucide-react";
 
 export default function TelecomMobileMockup() {
 
   const [deploying, setDeploying] =
+    useState(false);
+
+  const [terminating, setTerminating] =
     useState(false);
 
   const [deployment, setDeployment] =
@@ -46,6 +50,13 @@ export default function TelecomMobileMockup() {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/analytics/live-ran`
       );
+
+      if (!res.ok) {
+
+        throw new Error(
+          `HTTP ${res.status}`
+        );
+      }
 
       const data = await res.json();
 
@@ -83,6 +94,13 @@ export default function TelecomMobileMockup() {
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/edge/inference-request/${workloadId}`
       );
+
+      if (!res.ok) {
+
+        throw new Error(
+          `HTTP ${res.status}`
+        );
+      }
 
       const data = await res.json();
 
@@ -140,6 +158,13 @@ export default function TelecomMobileMockup() {
         }
       );
 
+      if (!res.ok) {
+
+        throw new Error(
+          `HTTP ${res.status}`
+        );
+      }
+
       const data = await res.json();
 
       setDeployment(data);
@@ -155,11 +180,73 @@ export default function TelecomMobileMockup() {
 
     } catch (err) {
 
-      console.error(err);
+      console.error(
+        "[Deployment Error]",
+        err
+      );
 
     } finally {
 
       setDeploying(false);
+    }
+  };
+
+  // =====================================================
+  // TERMINATE DEPLOYMENT
+  // =====================================================
+
+  const terminateInference = async () => {
+
+    try {
+
+      if (!deployment?.workloadId) {
+        return;
+      }
+
+      setTerminating(true);
+
+      const res = await fetch(
+
+        `${process.env.NEXT_PUBLIC_API_URL}/edge/inference-request/${deployment.workloadId}`,
+
+        {
+          method: "DELETE"
+        }
+      );
+
+      if (!res.ok) {
+
+        throw new Error(
+          `HTTP ${res.status}`
+        );
+      }
+
+      const data = await res.json();
+
+      console.log(
+        "[TERMINATED]",
+        data
+      );
+
+      setDeploymentStatus({
+
+        inferenceStatus:
+          "terminated",
+
+        deploymentName:
+          deployment?.deployment?.deploymentName
+      });
+
+    } catch (err) {
+
+      console.error(
+        "[Terminate Error]",
+        err
+      );
+
+    } finally {
+
+      setTerminating(false);
     }
   };
 
@@ -386,36 +473,78 @@ export default function TelecomMobileMockup() {
                     font-bold
                     text-lg
                   ">
-                    AI Edge Inference (admin only)
+                    AI Edge Inference
                   </h3>
 
                 </div>
 
-                <button
-                  type="button"
-                  disabled={deploying}
-                  onClick={launchInference}
-                  className="
-                    geo-claim-button
-                    rounded-full
-                    w-full
-                    button-clgeodrops
-                    hover:opacity-60
-                    duration-200
-                    ease-in-out
-                    text-white
-                    py-4
-                    font-semibold
-                  "
-                >
+                <div className="
+                  flex
+                  flex-col
+                  gap-3
+                ">
 
-                  {
-                    deploying
-                      ? "Deploying AI..."
-                      : "Launch AI Workload"
-                  }
+                  <button
+                    type="button"
+                    disabled={deploying}
+                    onClick={launchInference}
+                    className="
+                      geo-claim-button
+                      rounded-full
+                      w-full
+                      button-clgeodrops
+                      hover:opacity-60
+                      duration-200
+                      ease-in-out
+                      text-white
+                      py-4
+                      font-semibold
+                    "
+                  >
 
-                </button>
+                    {
+                      deploying
+                        ? "Deploying AI..."
+                        : "Launch AI Workload"
+                    }
+
+                  </button>
+
+                  {deployment && (
+
+                    <button
+                      type="button"
+                      disabled={terminating}
+                      onClick={terminateInference}
+                      className="
+                        rounded-full
+                        w-full
+                        bg-red-500
+                        hover:bg-red-600
+                        duration-200
+                        ease-in-out
+                        text-white
+                        py-4
+                        font-semibold
+                        flex
+                        items-center
+                        justify-center
+                        gap-2
+                      "
+                    >
+
+                      <Trash2 size={18} />
+
+                      {
+                        terminating
+                          ? "Terminating..."
+                          : "Terminate Workload"
+                      }
+
+                    </button>
+                  )}
+
+                </div>
 
               </div>
 
@@ -610,14 +739,7 @@ export default function TelecomMobileMockup() {
           ">
 
             <p>
-              This frontend simulates a real mobile
-              phone connected to a telecom AI edge
-              orchestration platform.
-            </p>
-
-            <p>
-              AI workloads are dynamically deployed
-              to edge clusters using:
+              This frontend simulates a telecom AI edge orchestration platform.
             </p>
 
             <ul className="
@@ -646,10 +768,6 @@ export default function TelecomMobileMockup() {
     </div>
   );
 }
-
-// =====================================================
-// WIDGET
-// =====================================================
 
 function Widget({
   icon,
@@ -705,10 +823,6 @@ function Widget({
   );
 }
 
-// =====================================================
-// INFO ROW
-// =====================================================
-
 function InfoRow({
   label,
   value
@@ -736,10 +850,6 @@ function InfoRow({
     </div>
   );
 }
-
-// =====================================================
-// ANALYTICS BAR
-// =====================================================
 
 function AnalyticsBar({
   label,
