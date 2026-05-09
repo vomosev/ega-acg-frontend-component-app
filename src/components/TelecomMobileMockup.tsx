@@ -207,14 +207,18 @@ export default function TelecomMobileMockup() {
                   value={
                     deployment?.assignedCluster?.latencyMs
                       ? `${deployment.assignedCluster.latencyMs}ms`
-                      : "5ms"
+                      : "TBC"
                   }
                 />
 
                 <Widget
                   icon={<Radio size={18} />}
                   label="Slice"
-                  value="LATENCY"
+                  value={
+                    deployment?.qosSession?.qosProfile
+                      ? `${deployment.qosSession.qosProfile}`
+                      : "TBC"
+                  }
                 />
 
                 <Widget
@@ -223,7 +227,7 @@ export default function TelecomMobileMockup() {
                   value={
                     deployment?.deployment?.gpuEnabled
                       ? "ACTIVE"
-                      : "READY"
+                      : "TBC"
                   }
                 />
 
