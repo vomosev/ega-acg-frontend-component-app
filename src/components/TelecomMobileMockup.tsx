@@ -339,14 +339,14 @@ export default function TelecomMobileMockup() {
           <h2 className="
             text-2xl
             font-bold
-            text-[#5871A7]
+            text-clgeodrops
             mb-4
           ">
             Autonomous Edge Orchestration
           </h2>
 
           <div className="
-            text-gray-600
+            text-clgeodrops
             leading-7
             space-y-3
           ">
