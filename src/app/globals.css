@@ -8,6 +8,7 @@ body {
   margin: 0;
   font-family: Arial, sans-serif;
   background: #F4F7FB;
+  color:  #000000;
 }
 
 .bg-clgeodrops {
@@ -15,7 +16,7 @@ body {
 }
 
 .text-clgeodrops {
-  color:  #ffd500;
+  color:  #000000;
 }
 
 .button-clgeodrops {
@@ -30,6 +31,7 @@ body {
   background: white;
   border: 1px solid #D4D8EA;
   box-shadow: 0 2px 12px rgba(0,0,0,0.04);
+  color:  #000000;
 }
 
 .dark .geo-card {

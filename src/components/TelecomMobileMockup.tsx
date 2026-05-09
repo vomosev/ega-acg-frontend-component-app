@@ -125,7 +125,7 @@ export default function TelecomMobileMockup() {
                     Edge AI Device
                   </h2>
 
-                  <p className="text-sm text-blue-100 mt-1">
+                  <p className="text-sm mt-1">
                     CAMARA QoD Active
                   </p>
                 </div>
