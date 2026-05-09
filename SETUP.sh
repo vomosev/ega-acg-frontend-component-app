@@ -61,8 +61,8 @@ echo "Creating .env.local..."
 echo "======================================================="
 
 cat > .env.local <<'EOF'
-NEXT_PUBLIC_API_URL=https://telco.geo-drops.com
-NEXT_PUBLIC_MAPS_API_KEY=YOUR_GOOGLE_MAPS_KEY
+NEXT_PUBLIC_API_URL=https://nodejs.gridiron-app.com
+NEXT_PUBLIC_MAPS_API_KEY=AIzaSyD4tOa3WyCovqis2DzMLbX6PmSYyZKvLO8
 EOF
 
 # =============================================================================
