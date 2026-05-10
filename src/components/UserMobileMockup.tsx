@@ -29,6 +29,9 @@ export default function TelecomMobileMockup() {
 
   const [deploymentLoading, setDeploymentLoading] =
     useState(false);
+ 
+  const [aiResult, setAiResult] =
+    useState("");
 
   const [analytics, setAnalytics] = useState({
 
@@ -105,6 +108,48 @@ export default function TelecomMobileMockup() {
       const data = await res.json();
 
       setDeploymentStatus(data);
+
+const runInference = async () => {
+
+  try {
+
+    const res =
+      await fetch(
+
+        `${process.env.NEXT_PUBLIC_API_URL}/edge/run-inference`,
+
+        {
+
+          method: "POST",
+
+          headers: {
+            "Content-Type":
+              "application/json"
+          },
+
+          body: JSON.stringify({
+
+            workloadId:
+              deployment.workloadId,
+
+            prompt:
+              "Analyse telecom congestion"
+          })
+        }
+      );
+
+    const data =
+      await res.json();
+
+    setAiResult(
+      data.result
+    );
+
+  } catch (err) {
+
+    console.error(err);
+  }
+};
 
     } catch (err) {
 
@@ -762,11 +807,37 @@ export default function TelecomMobileMockup() {
 
             </ul>
 
+          {
+            aiResult && (
+
+              <div className="
+                geo-card
+                rounded-3xl
+                p-5
+                whitespace-pre-wrap
+              ">
+
+                <h3 className="
+                  font-bold
+                  mb-3
+                ">
+                  AI Result
+                </h3>
+
+                <p className="text-sm">
+                  {aiResult}
+                </p>
+
+              </div>
+            )
+          }
+
           </div>
         </div>
       </div>
     </div>
   );
+  
 }
 
 function Widget({
