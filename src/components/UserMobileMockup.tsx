@@ -286,8 +286,6 @@ console.log(
   data
 );
 
-      console.log("[Completed]",data);
-
       } catch (err) {
 
         console.error(err);
