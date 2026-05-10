@@ -176,6 +176,11 @@ export default function TelecomMobileMockup() {
 
       setDeployment(data);
 
+      console.log(
+        "[DEPLOYMENT RESULT]",
+        data.result
+      );
+
       setDeploymentStatus({
 
         inferenceStatus:
@@ -212,11 +217,15 @@ export default function TelecomMobileMockup() {
             }
           );
 
-        const data =
+        const outputdata =
           await res.json();
 
         setAiResult(
-          data.result
+          outputdata.result
+        );
+        console.log(
+          "[AI RESULT]",
+          outputdata.result
         );
 
       } catch (err) {
