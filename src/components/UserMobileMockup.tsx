@@ -109,47 +109,44 @@ export default function TelecomMobileMockup() {
 
       setDeploymentStatus(data);
 
-const runInference = async () => {
+      try {
 
-  try {
+        const res =
+          await fetch(
 
-    const res =
-      await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/edge/run-inference`,
 
-        `${process.env.NEXT_PUBLIC_API_URL}/edge/run-inference`,
+            {
 
-        {
+              method: "POST",
 
-          method: "POST",
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
 
-          headers: {
-            "Content-Type":
-              "application/json"
-          },
+              body: JSON.stringify({
 
-          body: JSON.stringify({
+                workloadId:
+                  deployment.workloadId,
 
-            workloadId:
-              deployment.workloadId,
+                prompt:
+                  "Analyse telecom congestion"
+              })
+            }
+          );
 
-            prompt:
-              "Analyse telecom congestion"
-          })
-        }
-      );
+        const data =
+          await res.json();
 
-    const data =
-      await res.json();
+        setAiResult(
+          data.result
+        );
 
-    setAiResult(
-      data.result
-    );
+      } catch (err) {
 
-  } catch (err) {
-
-    console.error(err);
-  }
-};
+        console.error(err);
+      }
 
     } catch (err) {
 
