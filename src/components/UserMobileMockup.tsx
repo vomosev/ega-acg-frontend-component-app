@@ -504,8 +504,8 @@ export default function TelecomMobileMockup() {
 
                     {
                       deploying
-                        ? "Deploying AI..."
-                        : "Request information from Radiology AI"
+                        ? "Submitting..."
+                        : "Submit Request"
                     }
 
                   </button>
