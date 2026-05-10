@@ -177,8 +177,8 @@ export default function TelecomMobileMockup() {
       setDeployment(data);
 
       console.log(
-        "[DEPLOYMENT RESULT]",
-        data.result
+        "[DEPLOYMENT]",
+        data
       );
 
       setDeploymentStatus({
@@ -224,8 +224,8 @@ export default function TelecomMobileMockup() {
           outputdata.result
         );
         console.log(
-          "[AI RESULT]",
-          outputdata.result
+          "[AI]",
+          outputdata
         );
 
       } catch (err) {
