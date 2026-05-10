@@ -29,6 +29,9 @@ export default function TelecomMobileMockup() {
 
   const [deploymentLoading, setDeploymentLoading] =
     useState(false);
+ 
+  const [aiResult, setAiResult] =
+    useState("");
 
   const [analytics, setAnalytics] = useState({
 
@@ -125,6 +128,8 @@ export default function TelecomMobileMockup() {
 
       setDeploying(true);
 
+      let workloadId: number;
+
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/edge/inference-request`,
         {
@@ -167,7 +172,14 @@ export default function TelecomMobileMockup() {
 
       const data = await res.json();
 
+      workloadId = data.workloadId;
+
       setDeployment(data);
+
+      console.log(
+        "[DEPLOYMENT]",
+        data
+      );
 
       setDeploymentStatus({
 
@@ -177,6 +189,107 @@ export default function TelecomMobileMockup() {
         deployment:
           data.deployment
       });
+
+      console.log("[/edge/run-inference]",data);
+
+      try {
+
+        const res =
+          await fetch(
+
+            `${process.env.NEXT_PUBLIC_API_URL}/edge/run-inference`,
+
+            {
+
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+
+                workloadId:
+                  workloadId,
+
+                prompt:
+                  "Analyse telecom congestion"
+              })
+            }
+          );
+
+        const outputdata =
+          await res.json();
+
+setAiResult(
+  outputdata.result
+);
+
+console.log(
+  "[AI]",
+  outputdata
+);
+
+// =====================================================
+// AUTO CLEANUP AFTER SUCCESSFUL AI RESPONSE
+// =====================================================
+
+if (workloadId) {
+
+  try {
+
+    await fetch(
+
+      `${process.env.NEXT_PUBLIC_API_URL}/edge/inference-request/${workloadId}`,
+
+      {
+        method: "DELETE"
+      }
+    );
+
+    console.log(
+      "[AUTO TERMINATED]",
+      workloadId
+    );
+
+    setDeploymentStatus({
+
+      inferenceStatus:
+        "terminated",
+
+      deploymentName:
+        data?.deployment?.deploymentName
+    });
+
+  } catch (cleanupErr) {
+
+    console.error(
+      "[AUTO TERMINATE ERROR]",
+      cleanupErr
+    );
+  }
+}
+
+// =====================================================
+// RESTORE UI STATE
+// =====================================================
+
+setDeployment(null);
+
+setTerminating(false);
+
+setDeploying(false);
+
+console.log(
+  "[Completed]",
+  data
+);
+
+      } catch (err) {
+
+        console.error(err);
+      }
 
     } catch (err) {
 
@@ -473,7 +586,7 @@ export default function TelecomMobileMockup() {
                     font-bold
                     text-lg
                   ">
-                    AI Edge Inference
+                    Radiology AI
                   </h3>
 
                 </div>
@@ -487,6 +600,7 @@ export default function TelecomMobileMockup() {
                   <button
                     type="button"
                     disabled={deploying}
+                    hidden={deployment && !aiResult}
                     onClick={launchInference}
                     className="
                       geo-claim-button
@@ -504,13 +618,13 @@ export default function TelecomMobileMockup() {
 
                     {
                       deploying
-                        ? "Deploying AI..."
-                        : "Launch AI Workload"
+                        ? "Submitting..."
+                        : "Submit Request"
                     }
 
                   </button>
 
-                  {deployment && (
+                  {deployment && !aiResult && (
 
                     <button
                       type="button"
@@ -537,11 +651,12 @@ export default function TelecomMobileMockup() {
 
                       {
                         terminating
-                          ? "Terminating..."
-                          : "Terminate Workload"
+                          ? "Canceling..."
+                          : "Cancel Request"
                       }
 
                     </button>
+
                   )}
 
                 </div>
@@ -739,7 +854,7 @@ export default function TelecomMobileMockup() {
           ">
 
             <p>
-              This frontend simulates a telecom AI edge orchestration platform.
+              This pages shows the user interface for the autonomous edge orchestration platform.
             </p>
 
             <ul className="
@@ -748,25 +863,51 @@ export default function TelecomMobileMockup() {
               space-y-2
             ">
 
-              <li>CAMARA QoD APIs</li>
+              <li>The request information button sends an AI inference request to the edge platform.</li>
 
-              <li>5G Network Slicing</li>
+              <li>This is assigned to a specific edge cluster.</li>
 
-              <li>Open Gateway APIs</li>
+              <li>A specific workdload is deployed.</li>
 
-              <li>QUBO Optimisation</li>
+              <li>The deployment is managed by Kubernetes.</li>
 
-              <li>Kubernetes Edge AI</li>
+              <li>On completion data is returned.</li>
 
-              <li>GPU Orchestration</li>
+              <li>This can also be cancelled on demand.</li>
 
             </ul>
+
+          {
+            aiResult && (
+
+              <div className="
+                geo-card
+                rounded-3xl
+                p-5
+                whitespace-pre-wrap
+              ">
+
+                <h3 className="
+                  font-bold
+                  mb-3
+                ">
+                  AI Result
+                </h3>
+
+                <p className="text-sm">
+                  {aiResult}
+                </p>
+
+              </div>
+            )
+          }
 
           </div>
         </div>
       </div>
     </div>
   );
+  
 }
 
 function Widget({
