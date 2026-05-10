@@ -172,7 +172,7 @@ export default function TelecomMobileMockup() {
 
       const data = await res.json();
 
-      workloadId = data.workloadId || data.deployment.workloadId;
+      workloadId = data.workloadId;
 
       setDeployment(data);
 
@@ -189,6 +189,8 @@ export default function TelecomMobileMockup() {
         deployment:
           data.deployment
       });
+
+      console.log("[/edge/run-inference]",data);
 
       try {
 
@@ -227,6 +229,8 @@ export default function TelecomMobileMockup() {
           "[AI]",
           outputdata
         );
+
+      console.log("[Completed]",data);
 
       } catch (err) {
 
