@@ -7,19 +7,26 @@ export default function HomePage() {
 
       <div className="text-center">
 
-        <h1 className="text-5xl font-bold text-[#5871A7]">
+        <h1 className="heading-clgeodrops text-5xl font-bold text-[#5871A7]">
           EGA Autonomous AI Edge
         </h1>
 
-        <p className="mt-4 text-gray-500">
+        <p className="heading-clgeodrops mt-4 text-gray-500">
           CAMARA QoD + Edge AI + Telecom Analytics
         </p>
 
         <Link
-          href="/telecom"
-          className="inline-block mt-8 px-6 py-4 bg-[#5871A7] text-white rounded-2xl"
+          href="/user"
+          className="button-clgeodrops inline-block mt-8 px-6 py-4 bg-[#5871A7] rounded-2xl"
         >
-          Open Dashboard
+          User Dashboard
+        </Link>
+
+        <Link
+          href="/telecom"
+          className="button-clgeodrops inline-block mt-8 px-6 py-4 bg-[#5871A7] rounded-2xl"
+        >
+          Telecom Dashboard
         </Link>
 
       </div>
