@@ -172,7 +172,7 @@ export default function TelecomMobileMockup() {
 
       const data = await res.json();
 
-      workloadId = data.deployment.workloadId || data.workloadId;
+      workloadId = data.workloadId || data.deployment.workloadId;
 
       setDeployment(data);
 
