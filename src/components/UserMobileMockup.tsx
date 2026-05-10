@@ -109,45 +109,6 @@ export default function TelecomMobileMockup() {
 
       setDeploymentStatus(data);
 
-      try {
-
-        const res =
-          await fetch(
-
-            `${process.env.NEXT_PUBLIC_API_URL}/edge/run-inference`,
-
-            {
-
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json"
-              },
-
-              body: JSON.stringify({
-
-                workloadId:
-                  deployment.workloadId,
-
-                prompt:
-                  "Analyse telecom congestion"
-              })
-            }
-          );
-
-        const data =
-          await res.json();
-
-        setAiResult(
-          data.result
-        );
-
-      } catch (err) {
-
-        console.error(err);
-      }
-
     } catch (err) {
 
       console.error(
@@ -166,6 +127,8 @@ export default function TelecomMobileMockup() {
     try {
 
       setDeploying(true);
+
+      let workloadId: number;
 
       const res = await fetch(
         `${process.env.NEXT_PUBLIC_API_URL}/edge/inference-request`,
@@ -209,6 +172,8 @@ export default function TelecomMobileMockup() {
 
       const data = await res.json();
 
+      workloadId = data.deployment.workloadId || data.workloadId;
+
       setDeployment(data);
 
       setDeploymentStatus({
@@ -219,6 +184,45 @@ export default function TelecomMobileMockup() {
         deployment:
           data.deployment
       });
+
+      try {
+
+        const res =
+          await fetch(
+
+            `${process.env.NEXT_PUBLIC_API_URL}/edge/run-inference`,
+
+            {
+
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json"
+              },
+
+              body: JSON.stringify({
+
+                workloadId:
+                  workloadId,
+
+                prompt:
+                  "Analyse telecom congestion"
+              })
+            }
+          );
+
+        const data =
+          await res.json();
+
+        setAiResult(
+          data.result
+        );
+
+      } catch (err) {
+
+        console.error(err);
+      }
 
     } catch (err) {
 
