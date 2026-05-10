@@ -222,13 +222,69 @@ export default function TelecomMobileMockup() {
         const outputdata =
           await res.json();
 
-        setAiResult(
-          outputdata.result
-        );
-        console.log(
-          "[AI]",
-          outputdata
-        );
+setAiResult(
+  outputdata.result
+);
+
+console.log(
+  "[AI]",
+  outputdata
+);
+
+// =====================================================
+// AUTO CLEANUP AFTER SUCCESSFUL AI RESPONSE
+// =====================================================
+
+if (workloadId) {
+
+  try {
+
+    await fetch(
+
+      `${process.env.NEXT_PUBLIC_API_URL}/edge/inference-request/${workloadId}`,
+
+      {
+        method: "DELETE"
+      }
+    );
+
+    console.log(
+      "[AUTO TERMINATED]",
+      workloadId
+    );
+
+    setDeploymentStatus({
+
+      inferenceStatus:
+        "terminated",
+
+      deploymentName:
+        data?.deployment?.deploymentName
+    });
+
+  } catch (cleanupErr) {
+
+    console.error(
+      "[AUTO TERMINATE ERROR]",
+      cleanupErr
+    );
+  }
+}
+
+// =====================================================
+// RESTORE UI STATE
+// =====================================================
+
+setDeployment(null);
+
+setTerminating(false);
+
+setDeploying(false);
+
+console.log(
+  "[Completed]",
+  data
+);
 
       console.log("[Completed]",data);
 
@@ -546,7 +602,7 @@ export default function TelecomMobileMockup() {
                   <button
                     type="button"
                     disabled={deploying}
-                    hidden={deployment}
+                    hidden={deployment && !aiResult}
                     onClick={launchInference}
                     className="
                       geo-claim-button
@@ -570,7 +626,7 @@ export default function TelecomMobileMockup() {
 
                   </button>
 
-                  {deployment && (
+                  {deployment && !aiResult && (
 
                     <button
                       type="button"
