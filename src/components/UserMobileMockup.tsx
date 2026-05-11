@@ -904,7 +904,7 @@ console.log(
             </p>
 
             <p>
-              Sending workload requests to the network edge removes the inefficiens of sending them all the way to the core, which would mean increased latency and response times, adversely affecting the user experience. This pages shows the user interface for an autonomous edge orchestration platform, which has been designed to address the aforementioned challenges.
+              Sending workload requests to the network edge removes the inefficiencies of sending workload requests all the way to the core, which would mean increased latency and response times, adversely affecting the user experience. This pages shows the user interface for an autonomous edge orchestration platform, which has been designed to address the aforementioned challenges.
             </p>
 
             <ul className="
