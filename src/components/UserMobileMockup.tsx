@@ -228,12 +228,12 @@ export default function TelecomMobileMockup() {
           await res.json();
 
 setAiResult(
-  outputdata.result
+  outputdata.result || outputdata
 );
 
 console.log(
   "[AI]",
-  outputdata
+  outputdata.result || outputdata
 );
 
 // =====================================================
