@@ -900,7 +900,11 @@ console.log(
           ">
 
             <p>
-              This pages shows the user interface for the autonomous edge orchestration platform.
+              The bursty nature of AI workloads means user demand will be vastly different from typical workloads that 5G networks were built for. This making them a perfect fit for edge computing, but also presents unique challenges for orchestration and management.
+            </p>
+
+            <p>
+              Sending workload requests to the network edge removes the inefficiens of sending them all the way to the core, which would mean increased latency and response times, adversely affecting the user experience. This pages shows the user interface for an autonomous edge orchestration platform, which has been designed to address the aforementioned challenges.
             </p>
 
             <ul className="
