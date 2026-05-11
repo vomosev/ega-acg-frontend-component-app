@@ -854,6 +854,30 @@ console.log(
           ">
 
             <p>
+              This frontend simulates a telecom AI edge orchestration platform.
+            </p>
+
+            <ul className="
+              list-disc
+              pl-6
+              space-y-2
+            ">
+
+              <li>CAMARA QoD APIs</li>
+
+              <li>5G Network Slicing</li>
+
+              <li>Open Gateway APIs</li>
+
+              <li>QUBO Optimisation</li>
+
+              <li>Kubernetes Edge AI</li>
+
+              <li>GPU Orchestration</li>
+
+            </ul>
+
+            <p>
               This pages shows the user interface for the autonomous edge orchestration platform.
             </p>
 
