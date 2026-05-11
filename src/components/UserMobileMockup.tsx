@@ -42,6 +42,11 @@ export default function TelecomMobileMockup() {
     gpuUtilisation: 0,
   });
 
+  const [prompt, setPrompt] =
+  useState(
+    "Analyse telecom congestion"
+  );
+
   // =====================================================
   // LOAD LIVE RAN ANALYTICS
   // =====================================================
@@ -214,7 +219,7 @@ export default function TelecomMobileMockup() {
                   workloadId,
 
                 prompt:
-                  "Analyse telecom congestion"
+                  prompt
               })
             }
           );
@@ -596,6 +601,47 @@ console.log(
                   flex-col
                   gap-3
                 ">
+
+                  <div className="
+                    flex
+                    flex-col
+                    gap-2
+                  ">
+
+                    <label className="
+                      text-sm
+                      font-semibold
+                      text-gray-700
+                    ">
+                      AI Prompt
+                    </label>
+
+                    <textarea
+                      value={prompt}
+                      onChange={(e) =>
+                        setPrompt(
+                          e.target.value
+                        )
+                      }
+                      placeholder="Enter AI inference prompt..."
+                      className="
+                        w-full
+                        min-h-[120px]
+                        rounded-2xl
+                        border
+                        border-[#D4D8EA]
+                        p-4
+                        text-sm
+                        outline-none
+                        resize-none
+                        focus:border-[#5871A7]
+                        focus:ring-2
+                        focus:ring-[#5871A7]/20
+                        bg-white
+                      "
+                    />
+
+                  </div>
 
                   <button
                     type="button"
